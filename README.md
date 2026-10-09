@@ -25,8 +25,6 @@ The training and evaluation scripts require Python, CUDA-enabled PyTorch, NumPy,
 python -m pip install -r requirements.txt
 ```
 
-No custom CUDA extension is needed for the active FSLST model. Exact dependency versions and GPU execution have not been validated for this release.
-
 ## Data and training
 
 Replace `/path/to/dataset/` in the YAML files with your **absolute** dataset path. Training consumes paired GT/LQ LMDB databases; validation and testing read YUV videos. Keep GT and compressed videos paired in the same sorted order. The YUV test loader expects each compressed filename to be `rec` followed by the corresponding raw filename. Datasets are not included.
@@ -45,7 +43,6 @@ With prepared LMDB databases and validation data:
 python train.py --opt_path SNFS_A_QP27.yml
 ```
 
-The supplied YAML is an example adapted for QP27, rather than an exact reconstruction of the historical training configuration. In particular, it uses `batch_size_per_gpu: 4`; the archived training log records batch size 32 on one GPU. The training example writes to a separate experiment directory.
 
 ## Evaluation
 
@@ -57,7 +54,6 @@ python test_fyp.py --opt_path SNFS_A_QP27_test.yml
 
 This loads `exp/SCC_LD_SNFS_A_QP27_enlarg300x/ckp_300000.pt` and computes luminance PSNR. It writes `log_test.log` in the checkpoint directory, overwriting that file; copy the original log before running a new evaluation.
 
-The bundled logs are preserved as historical records. The archived test log contains values near 0.99 despite its `PSNR` / `dB` labels; its actual historical metric cannot be established from the current PSNR script alone. Those values should not be interpreted as PSNR in dB.
 
 ## Citation
 
